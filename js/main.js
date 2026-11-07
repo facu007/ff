@@ -1,7 +1,9 @@
 /**
- * EXPRESO 38 SRL — Interactividad UI, Mapa Geográfico Mercosur, Flota Real, Galería Instagram & Cotizador B2B
+ * EXPRESO 38 SRL — Interactividad UI Responsive, Mapa Geográfico Mercosur, Flota Real, Galería & Cotizador B2B
  */
 document.addEventListener('DOMContentLoaded', () => {
+  const supportsHover = () => window.matchMedia('(hover: hover)').matches;
+
   // =========================================================================
   // 1. PANEL OPERATIVO LATERAL (SIDE DRAWER)
   // =========================================================================
@@ -45,10 +47,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const isMatch = link.getAttribute('href') === `#${id}`;
       if (isMatch) {
         link.className =
-          'text-primary dark:text-primary border-b-2 border-primary-container dark:border-primary pb-1 text-label-lg font-label-lg transition-colors duration-200';
+          'text-primary dark:text-primary border-b-2 border-primary-container dark:border-primary pb-1 text-label-lg font-label-lg whitespace-nowrap transition-colors duration-200';
       } else {
         link.className =
-          'text-on-surface-variant dark:text-on-surface-variant font-label-lg text-label-lg hover:text-primary dark:hover:text-primary transition-colors duration-200';
+          'text-on-surface-variant dark:text-on-surface-variant font-label-lg text-label-lg hover:text-primary dark:hover:text-primary whitespace-nowrap transition-colors duration-200';
       }
     });
   }
@@ -70,10 +72,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // =========================================================================
   // 3. SELECTOR INTERACTIVO DE FLOTA REAL VOLVO FH (#flota)
   // =========================================================================
+  const fleetShowcaseCard = document.getElementById('fleetShowcaseCard');
   const fleetShowcaseImg = document.getElementById('fleetShowcaseImg');
-  const fleetShowcaseBadge = document.getElementById('fleetShowcaseBadge');
-  const fleetShowcaseTitle = document.getElementById('fleetShowcaseTitle');
-  const fleetShowcaseDesc = document.getElementById('fleetShowcaseDesc');
+  const fleetShowcaseBadges = document.querySelectorAll('[data-fleet-badge-display]');
+  const fleetShowcaseTitles = document.querySelectorAll('[data-fleet-title-display]');
+  const fleetShowcaseDescs = document.querySelectorAll('[data-fleet-desc-display]');
   const fleetThumbs = document.querySelectorAll('[data-fleet-thumb]');
   const configCards = document.querySelectorAll('[data-fleet-config]');
   const notesField = document.getElementById('notes');
@@ -84,9 +87,21 @@ document.addEventListener('DOMContentLoaded', () => {
       fleetShowcaseImg.src = data.src;
       fleetShowcaseImg.alt = data.title || 'Unidad Volvo FH Expreso 38 SRL';
     }
-    if (fleetShowcaseBadge && data.badge) fleetShowcaseBadge.textContent = data.badge;
-    if (fleetShowcaseTitle && data.title) fleetShowcaseTitle.textContent = data.title;
-    if (fleetShowcaseDesc && data.desc) fleetShowcaseDesc.textContent = data.desc;
+    if (data.badge) {
+      fleetShowcaseBadges.forEach((el) => {
+        el.textContent = data.badge;
+      });
+    }
+    if (data.title) {
+      fleetShowcaseTitles.forEach((el) => {
+        el.textContent = data.title;
+      });
+    }
+    if (data.desc) {
+      fleetShowcaseDescs.forEach((el) => {
+        el.textContent = data.desc;
+      });
+    }
 
     fleetThumbs.forEach((btn) => {
       const isActive = btn.dataset.src === data.src;
@@ -121,6 +136,14 @@ document.addEventListener('DOMContentLoaded', () => {
           title: card.dataset.title,
           desc: card.dataset.desc
         });
+      }
+
+      // En pantallas móviles/tablets desplazamos suavemente hacia el visor principal para mostrar el cambio
+      if (fleetShowcaseCard && window.innerWidth < 1024) {
+        const rect = fleetShowcaseCard.getBoundingClientRect();
+        if (rect.top < 60) {
+          fleetShowcaseCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
       }
 
       if (notesField && configName) {
@@ -204,6 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
+  const mapCanvasCard = document.getElementById('mapCanvasCard');
   const corridorCards = document.querySelectorAll('[data-corridor-card]');
   const corridorGroups = document.querySelectorAll('[data-corridor-group]');
   const mapNodes = document.querySelectorAll('[data-node-corridors]');
@@ -226,7 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (hudSla) hudSla.textContent = 'Monitoreo GPS 24/7';
       if (hudHubs)
         hudHubs.textContent =
-          'Seleccione una ruta en el mapa o en el listado para inspeccionar tiempos, pasos aduaneros y cotizar.';
+          'Toque o seleccione una ruta en el mapa o en el listado para inspeccionar tiempos, pasos aduaneros y cotizar.';
       if (mapResetBtn) mapResetBtn.classList.add('hidden');
       return;
     }
@@ -288,24 +312,30 @@ document.addEventListener('DOMContentLoaded', () => {
   corridorCards.forEach((card) => {
     const id = card.dataset.corridorCard;
     card.addEventListener('mouseenter', () => {
-      if (!lockedCorridorId) applyCorridorState(id);
+      if (supportsHover() && !lockedCorridorId) applyCorridorState(id);
     });
     card.addEventListener('mouseleave', () => {
-      if (!lockedCorridorId) applyCorridorState(null);
+      if (supportsHover() && !lockedCorridorId) applyCorridorState(null);
     });
     card.addEventListener('click', () => {
       lockedCorridorId = lockedCorridorId === id ? null : id;
       applyCorridorState(lockedCorridorId);
+      if (lockedCorridorId && mapCanvasCard && window.innerWidth < 1024) {
+        const rect = mapCanvasCard.getBoundingClientRect();
+        if (rect.bottom < 180) {
+          mapCanvasCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
     });
   });
 
   corridorGroups.forEach((group) => {
     const id = group.dataset.corridorGroup;
     group.addEventListener('mouseenter', () => {
-      if (!lockedCorridorId) applyCorridorState(id);
+      if (supportsHover() && !lockedCorridorId) applyCorridorState(id);
     });
     group.addEventListener('mouseleave', () => {
-      if (!lockedCorridorId) applyCorridorState(null);
+      if (supportsHover() && !lockedCorridorId) applyCorridorState(null);
     });
     group.addEventListener('click', () => {
       lockedCorridorId = lockedCorridorId === id ? null : id;
@@ -317,10 +347,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const primaryCorridor = (node.dataset.nodeCorridors || '').split(',')[0];
     if (!primaryCorridor) return;
     node.addEventListener('mouseenter', () => {
-      if (!lockedCorridorId) applyCorridorState(primaryCorridor);
+      if (supportsHover() && !lockedCorridorId) applyCorridorState(primaryCorridor);
     });
     node.addEventListener('mouseleave', () => {
-      if (!lockedCorridorId) applyCorridorState(null);
+      if (supportsHover() && !lockedCorridorId) applyCorridorState(null);
     });
     node.addEventListener('click', () => {
       lockedCorridorId = lockedCorridorId === primaryCorridor ? null : primaryCorridor;
@@ -377,23 +407,25 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Controles rápidos de audio y reproducción para videos inline
+  // Controles rápidos de audio y reproducción para videos inline (soporta múltiples botones responsive por tarjeta)
   document.querySelectorAll('[data-video-card]').forEach((card) => {
     const video = card.querySelector('video');
-    const muteBtn = card.querySelector('[data-toggle-mute]');
-    const playBtn = card.querySelector('[data-toggle-play]');
+    const muteBtns = card.querySelectorAll('[data-toggle-mute]');
+    const playBtns = card.querySelectorAll('[data-toggle-play]');
     if (!video) return;
 
-    if (muteBtn) {
+    muteBtns.forEach((muteBtn) => {
       muteBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         video.muted = !video.muted;
-        const icon = muteBtn.querySelector('.material-symbols-outlined');
-        if (icon) icon.textContent = video.muted ? 'volume_off' : 'volume_up';
+        muteBtns.forEach((b) => {
+          const icon = b.querySelector('.material-symbols-outlined');
+          if (icon) icon.textContent = video.muted ? 'volume_off' : 'volume_up';
+        });
       });
-    }
+    });
 
-    if (playBtn) {
+    playBtns.forEach((playBtn) => {
       playBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         if (video.paused) {
@@ -402,18 +434,24 @@ document.addEventListener('DOMContentLoaded', () => {
           video.pause();
         }
       });
-      video.addEventListener('play', () => {
-        const icon = playBtn.querySelector('.material-symbols-outlined');
+    });
+
+    video.addEventListener('play', () => {
+      playBtns.forEach((b) => {
+        const icon = b.querySelector('.material-symbols-outlined');
         if (icon) icon.textContent = 'pause';
       });
-      video.addEventListener('pause', () => {
-        const icon = playBtn.querySelector('.material-symbols-outlined');
+    });
+
+    video.addEventListener('pause', () => {
+      playBtns.forEach((b) => {
+        const icon = b.querySelector('.material-symbols-outlined');
         if (icon) icon.textContent = 'play_arrow';
       });
-    }
+    });
   });
 
-  // Lightbox Modal Pantalla Completa (Fotos + Videos)
+  // Lightbox Modal Pantalla Completa con Soporte Táctil Swipe (Fotos + Videos)
   const lightbox = document.getElementById('mediaLightbox');
   const lightboxImg = document.getElementById('lightboxImage');
   const lightboxVideo = document.getElementById('lightboxVideo');
@@ -421,8 +459,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const lightboxBadge = document.getElementById('lightboxBadge');
   const lightboxCounter = document.getElementById('lightboxCounter');
   const lightboxClose = document.getElementById('lightboxClose');
-  const lightboxPrev = document.getElementById('lightboxPrev');
-  const lightboxNext = document.getElementById('lightboxNext');
+  const lightboxPrevs = document.querySelectorAll('[data-lightbox-prev]');
+  const lightboxNexts = document.querySelectorAll('[data-lightbox-next]');
 
   const lightboxTriggers = Array.from(document.querySelectorAll('[data-lightbox-src]'));
   let currentMediaIndex = 0;
@@ -472,7 +510,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function openLightbox(index) {
     if (!lightbox) return;
-    // Pausar videos de fondo mientras se abre el visor
     document.querySelectorAll('[data-video-card] video').forEach((v) => v.pause());
     lightbox.classList.remove('hidden');
     lightbox.classList.add('flex');
@@ -500,20 +537,54 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
-  if (lightboxPrev)
-    lightboxPrev.addEventListener('click', (e) => {
+  lightboxPrevs.forEach((btn) => {
+    btn.addEventListener('click', (e) => {
       e.stopPropagation();
       renderLightboxItem(currentMediaIndex - 1);
     });
-  if (lightboxNext)
-    lightboxNext.addEventListener('click', (e) => {
+  });
+  lightboxNexts.forEach((btn) => {
+    btn.addEventListener('click', (e) => {
       e.stopPropagation();
       renderLightboxItem(currentMediaIndex + 1);
     });
+  });
+
   if (lightbox) {
     lightbox.addEventListener('click', (e) => {
       if (e.target === lightbox) closeLightbox();
     });
+
+    // Soporte de gestos Swipe Izquierda / Derecha en dispositivos móviles
+    let touchStartX = 0;
+    let touchStartY = 0;
+    lightbox.addEventListener(
+      'touchstart',
+      (e) => {
+        if (e.changedTouches && e.changedTouches.length > 0) {
+          touchStartX = e.changedTouches[0].screenX;
+          touchStartY = e.changedTouches[0].screenY;
+        }
+      },
+      { passive: true }
+    );
+
+    lightbox.addEventListener(
+      'touchend',
+      (e) => {
+        if (!e.changedTouches || e.changedTouches.length === 0) return;
+        const dx = e.changedTouches[0].screenX - touchStartX;
+        const dy = e.changedTouches[0].screenY - touchStartY;
+        if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.4) {
+          if (dx < 0) {
+            renderLightboxItem(currentMediaIndex + 1);
+          } else {
+            renderLightboxItem(currentMediaIndex - 1);
+          }
+        }
+      },
+      { passive: true }
+    );
   }
 
   document.addEventListener('keydown', (e) => {

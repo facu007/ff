@@ -1,4 +1,11 @@
-/* EXPRESO 38 SRL — Estilos Corporativos, Identidad Camión, Mapa Mercosur & Galería Multimedia */
+/* EXPRESO 38 SRL — Estilos Corporativos, Identidad Camión, Mapa Mercosur, Galería & Responsive */
+
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
 
 .material-symbols-outlined {
   font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
@@ -25,6 +32,16 @@
   background: #d71932;
 }
 
+/* Ocultar barra de scroll horizontal en tiras táctiles móviles */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 .technical-grid-bg {
   background-image: radial-gradient(rgba(115, 119, 125, 0.16) 1px, transparent 1px);
   background-size: 22px 22px;
@@ -35,9 +52,11 @@
   transition: transform 0.2s ease, filter 0.2s ease;
 }
 
-.logo-truck-lockup:hover {
-  transform: translateY(-1px) scale(1.015);
-  filter: drop-shadow(0 0 10px rgba(215, 25, 50, 0.45));
+@media (hover: hover) {
+  .logo-truck-lockup:hover {
+    transform: translateY(-1px) scale(1.015);
+    filter: drop-shadow(0 0 10px rgba(215, 25, 50, 0.45));
+  }
 }
 
 /* Mapa Geográfico Interactivo Argentina & Mercosur */
@@ -67,6 +86,14 @@
 
 .corridor-base {
   transition: stroke-width 0.25s ease, opacity 0.25s ease, filter 0.25s ease, stroke 0.25s ease;
+  cursor: pointer;
+}
+
+/* Área táctil ampliada invisible en móvil para tocar rutas con facilidad */
+.corridor-hit-area {
+  stroke: transparent;
+  stroke-width: 18;
+  fill: none;
   cursor: pointer;
 }
 
@@ -112,9 +139,11 @@
   opacity: 0.3;
 }
 
-.map-node:hover circle.node-core {
-  r: 6.5px;
-  fill: #ff3347;
+@media (hover: hover) {
+  .map-node:hover circle.node-core {
+    r: 6.5px;
+    fill: #ff3347;
+  }
 }
 
 /* Galería Multimedia Instagram & Reproductor */
@@ -130,8 +159,10 @@
   transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1), filter 0.35s ease;
 }
 
-.gallery-item:hover .gallery-media-zoom {
-  transform: scale(1.045);
+@media (hover: hover) {
+  .gallery-item:hover .gallery-media-zoom {
+    transform: scale(1.045);
+  }
 }
 
 .filter-pill.is-active {
@@ -139,4 +170,20 @@
   border-color: #d71932;
   color: #ffffff;
   box-shadow: 0 4px 14px rgba(215, 25, 50, 0.35);
+}
+
+/* Ajustes finos para pantallas muy pequeñas (<= 380px) */
+@media (max-width: 380px) {
+  .xs-compact-text {
+    font-size: 11px !important;
+    line-height: 15px !important;
+  }
+}
+
+/* Respeto a accesibilidad si el usuario prefiere reducir movimiento */
+@media (prefers-reduced-motion: reduce) {
+  .corridor-flow,
+  .hub-pulse-ring {
+    animation: none !important;
+  }
 }

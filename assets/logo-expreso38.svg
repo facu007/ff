@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 118" fill="none" role="img" aria-label="Transporte Expreso 38 SRL">
+  <defs>
+    <linearGradient id="e38Red" x1="0" y1="14" x2="0" y2="102" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FF3347"/>
+      <stop offset="47%" stop-color="#E41B32"/>
+      <stop offset="53%" stop-color="#BC0E23"/>
+      <stop offset="100%" stop-color="#DF1830"/>
+    </linearGradient>
+    <linearGradient id="e38Ribbon" x1="20" y1="0" x2="520" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#D71932" stop-opacity="0.96"/>
+      <stop offset="78%" stop-color="#D71932" stop-opacity="0.88"/>
+      <stop offset="100%" stop-color="#D71932" stop-opacity="0"/>
+    </linearGradient>
+    <pattern id="e38Hex" width="8" height="8" patternUnits="userSpaceOnUse">
+      <polygon points="4,0.5 7.5,2.5 7.5,5.5 4,7.5 0.5,5.5 0.5,2.5" fill="none" stroke="#ffffff" stroke-opacity="0.32" stroke-width="0.8"/>
+    </pattern>
+    <filter id="e38Shadow" x="-6%" y="-10%" width="114%" height="125%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000000" flood-opacity="0.7"/>
+    </filter>
+  </defs>
+
+  <g transform="translate(32, 0) skewX(-15)">
+    <!-- Franjas dinámicas superiores con tramado panal estilo cabina Volvo FH -->
+    <polygon points="24,7.5 488,7.5 484,12.5 24,12.5" fill="url(#e38Ribbon)"/>
+    <polygon points="362,3 490,3 487,12.5 359,12.5" fill="#D71932"/>
+    <polygon points="362,3 490,3 487,12.5 359,12.5" fill="url(#e38Hex)"/>
+
+    <!-- Franja inferior de velocidad -->
+    <polygon points="24,105.5 498,105.5 495,110.5 24,110.5" fill="url(#e38Ribbon)"/>
+    <polygon points="24,105.5 182,105.5 179,111.5 24,111.5" fill="#D1D5DB" fill-opacity="0.5"/>
+
+    <!-- Filete exterior metálico claro uniforme para contraste sobre fondo oscuro -->
+    <g filter="url(#e38Shadow)" stroke="#F3F4F6" stroke-linejoin="round" paint-order="stroke">
+      <g stroke-width="10.8">
+        <path d="M0,0 H74 V24 H49 V100 H25 V24 H0 Z" transform="translate(26.00,22.00) scale(0.3454,0.3000)" fill-rule="evenodd"/>
+        <path d="M0,0 H64 L78,14 V46 L66,58 L82,100 H55 L42,62 H25 V100 H0 Z M25,21 V42 H53 V21 Z" transform="translate(54.67,22.00) scale(0.3454,0.3000)" fill-rule="evenodd"/>
+        <path d="M18,0 H64 L82,100 H57 L53,76 H29 L25,100 H0 Z M32,55 H50 L41,20 Z" transform="translate(85.41,22.00) scale(0.3454,0.3000)" fill-rule="evenodd"/>
+        <path d="M0,0 H23 L57,58 V0 H80 V100 H57 L23,42 V100 H0 Z" transform="translate(116.84,22.00) scale(0.3454,0.3000)" fill-rule="evenodd"/>
+        <path d="M13,0 H74 V21 H25 V39 H63 L76,52 V87 L63,100 H0 V79 H51 V60 H13 L0,47 V13 Z" transform="translate(147.58,22.00) scale(0.3454,0.3000)" fill-rule="evenodd"/>
+        <path d="M0,0 H64 L78,14 V50 L64,64 H25 V100 H0 Z M25,21 V43 H53 V21 Z" transform="translate(176.94,22.00) scale(0.3454,0.3000)" fill-rule="evenodd"/>
+        <path d="M14,0 H66 L80,14 V86 L66,100 H14 L0,86 V14 Z M25,22 V78 H55 V22 Z" transform="translate(206.98,22.00) scale(0.3454,0.3000)" fill-rule="evenodd"/>
+        <path d="M0,0 H64 L78,14 V46 L66,58 L82,100 H55 L42,62 H25 V100 H0 Z M25,21 V42 H53 V21 Z" transform="translate(237.72,22.00) scale(0.3454,0.3000)" fill-rule="evenodd"/>
+        <path d="M0,0 H74 V24 H49 V100 H25 V24 H0 Z" transform="translate(268.46,22.00) scale(0.3454,0.3000)" fill-rule="evenodd"/>
+        <path d="M0,0 H72 V22 H24 V39 H64 V60 H24 V78 H72 V100 H0 Z" transform="translate(297.13,22.00) scale(0.3454,0.3000)" fill-rule="evenodd"/>
+      </g>
+      <g stroke-width="8.2">
+        <path d="M0,0 H72 V22 H24 V39 H64 V60 H24 V78 H72 V100 H0 Z" transform="translate(26.00,57.00) scale(0.4983,0.4300)" fill-rule="evenodd"/>
+        <path d="M0,0 H27 L41,28 L55,0 H82 L55,49 L84,100 H56 L41,70 L26,100 H-2 L27,49 Z" transform="translate(66.36,57.00) scale(0.4983,0.4300)" fill-rule="evenodd"/>
+        <path d="M0,0 H64 L78,14 V50 L64,64 H25 V100 H0 Z M25,21 V43 H53 V21 Z" transform="translate(111.71,57.00) scale(0.4983,0.4300)" fill-rule="evenodd"/>
+        <path d="M0,0 H64 L78,14 V46 L66,58 L82,100 H55 L42,62 H25 V100 H0 Z M25,21 V42 H53 V21 Z" transform="translate(155.06,57.00) scale(0.4983,0.4300)" fill-rule="evenodd"/>
+        <path d="M0,0 H72 V22 H24 V39 H64 V60 H24 V78 H72 V100 H0 Z" transform="translate(199.41,57.00) scale(0.4983,0.4300)" fill-rule="evenodd"/>
+        <path d="M13,0 H74 V21 H25 V39 H63 L76,52 V87 L63,100 H0 V79 H51 V60 H13 L0,47 V13 Z" transform="translate(239.78,57.00) scale(0.4983,0.4300)" fill-rule="evenodd"/>
+        <path d="M14,0 H66 L80,14 V86 L66,100 H14 L0,86 V14 Z M25,22 V78 H55 V22 Z" transform="translate(282.13,57.00) scale(0.4983,0.4300)" fill-rule="evenodd"/>
+      </g>
+      <g stroke-width="5.2">
+        <path d="M0,15 L15,0 H73 L88,15 V41 L75,50 L88,60 V85 L73,100 H15 L0,85 V67 H26 V78 H61 V59 H31 V41 H61 V22 H26 V32 H0 Z" transform="translate(332.00,16.00) scale(0.8191,0.8400)" fill-rule="evenodd"/>
+        <path d="M15,0 H75 L90,15 V41 L77,50 L90,60 V85 L75,100 H15 L0,85 V60 L13,50 L0,41 V15 Z M27,21 V40 H63 V21 Z M27,60 V79 H63 V60 Z" transform="translate(412.28,16.00) scale(0.8191,0.8400)" fill-rule="evenodd"/>
+      </g>
+    </g>
+
+    <!-- Contorno negro de vinilo + relleno rojo carmesí idéntico al ploteo en camiones -->
+    <g fill="url(#e38Red)" stroke="#090B0E" stroke-linejoin="round" paint-order="stroke">
+      <g stroke-width="7.4">
+        <path d="M0,0 H74 V24 H49 V100 H25 V24 H0 Z" transform="translate(26.00,22.00) scale(0.3454,0.3000)" fill-rule="evenodd"/>
+        <path d="M0,0 H64 L78,14 V46 L66,58 L82,100 H55 L42,62 H25 V100 H0 Z M25,21 V42 H53 V21 Z" transform="translate(54.67,22.00) scale(0.3454,0.3000)" fill-rule="evenodd"/>
+        <path d="M18,0 H64 L82,100 H57 L53,76 H29 L25,100 H0 Z M32,55 H50 L41,20 Z" transform="translate(85.41,22.00) scale(0.3454,0.3000)" fill-rule="evenodd"/>
+        <path d="M0,0 H23 L57,58 V0 H80 V100 H57 L23,42 V100 H0 Z" transform="translate(116.84,22.00) scale(0.3454,0.3000)" fill-rule="evenodd"/>
+        <path d="M13,0 H74 V21 H25 V39 H63 L76,52 V87 L63,100 H0 V79 H51 V60 H13 L0,47 V13 Z" transform="translate(147.58,22.00) scale(0.3454,0.3000)" fill-rule="evenodd"/>
+        <path d="M0,0 H64 L78,14 V50 L64,64 H25 V100 H0 Z M25,21 V43 H53 V21 Z" transform="translate(176.94,22.00) scale(0.3454,0.3000)" fill-rule="evenodd"/>
+        <path d="M14,0 H66 L80,14 V86 L66,100 H14 L0,86 V14 Z M25,22 V78 H55 V22 Z" transform="translate(206.98,22.00) scale(0.3454,0.3000)" fill-rule="evenodd"/>
+        <path d="M0,0 H64 L78,14 V46 L66,58 L82,100 H55 L42,62 H25 V100 H0 Z M25,21 V42 H53 V21 Z" transform="translate(237.72,22.00) scale(0.3454,0.3000)" fill-rule="evenodd"/>
+        <path d="M0,0 H74 V24 H49 V100 H25 V24 H0 Z" transform="translate(268.46,22.00) scale(0.3454,0.3000)" fill-rule="evenodd"/>
+        <path d="M0,0 H72 V22 H24 V39 H64 V60 H24 V78 H72 V100 H0 Z" transform="translate(297.13,22.00) scale(0.3454,0.3000)" fill-rule="evenodd"/>
+      </g>
+      <g stroke-width="5.6">
+        <path d="M0,0 H72 V22 H24 V39 H64 V60 H24 V78 H72 V100 H0 Z" transform="translate(26.00,57.00) scale(0.4983,0.4300)" fill-rule="evenodd"/>
+        <path d="M0,0 H27 L41,28 L55,0 H82 L55,49 L84,100 H56 L41,70 L26,100 H-2 L27,49 Z" transform="translate(66.36,57.00) scale(0.4983,0.4300)" fill-rule="evenodd"/>
+        <path d="M0,0 H64 L78,14 V50 L64,64 H25 V100 H0 Z M25,21 V43 H53 V21 Z" transform="translate(111.71,57.00) scale(0.4983,0.4300)" fill-rule="evenodd"/>
+        <path d="M0,0 H64 L78,14 V46 L66,58 L82,100 H55 L42,62 H25 V100 H0 Z M25,21 V42 H53 V21 Z" transform="translate(155.06,57.00) scale(0.4983,0.4300)" fill-rule="evenodd"/>
+        <path d="M0,0 H72 V22 H24 V39 H64 V60 H24 V78 H72 V100 H0 Z" transform="translate(199.41,57.00) scale(0.4983,0.4300)" fill-rule="evenodd"/>
+        <path d="M13,0 H74 V21 H25 V39 H63 L76,52 V87 L63,100 H0 V79 H51 V60 H13 L0,47 V13 Z" transform="translate(239.78,57.00) scale(0.4983,0.4300)" fill-rule="evenodd"/>
+        <path d="M14,0 H66 L80,14 V86 L66,100 H14 L0,86 V14 Z M25,22 V78 H55 V22 Z" transform="translate(282.13,57.00) scale(0.4983,0.4300)" fill-rule="evenodd"/>
+      </g>
+      <g stroke-width="3.5">
+        <path d="M0,15 L15,0 H73 L88,15 V41 L75,50 L88,60 V85 L73,100 H15 L0,85 V67 H26 V78 H61 V59 H31 V41 H61 V22 H26 V32 H0 Z" transform="translate(332.00,16.00) scale(0.8191,0.8400)" fill-rule="evenodd"/>
+        <path d="M15,0 H75 L90,15 V41 L77,50 L90,60 V85 L75,100 H15 L0,85 V60 L13,50 L0,41 V15 Z M27,21 V40 H63 V21 Z M27,60 V79 H63 V60 Z" transform="translate(412.28,16.00) scale(0.8191,0.8400)" fill-rule="evenodd"/>
+      </g>
+    </g>
+
+    <!-- Corte horizontal característico en TRANSPORTE, EXPRESO y 38 -->
+    <rect x="23" y="36.2" width="302" height="2.0" fill="#090B0E" opacity="0.92"/>
+    <rect x="23" y="77.4" width="302" height="2.4" fill="#090B0E" opacity="0.92"/>
+    <rect x="329" y="56.8" width="160" height="3.0" fill="#090B0E" opacity="0.92"/>
+
+    <!-- Sigla SRL -->
+    <g fill="#F3F4F6" stroke="#090B0E" stroke-width="10" stroke-linejoin="round" paint-order="stroke">
+      <path d="M13,0 H74 V21 H25 V39 H63 L76,52 V87 L63,100 H0 V79 H51 V60 H13 L0,47 V13 Z" transform="translate(491.00,82.00) scale(0.1417,0.1600)" fill-rule="evenodd"/>
+      <path d="M0,0 H64 L78,14 V46 L66,58 L82,100 H55 L42,62 H25 V100 H0 Z M25,21 V42 H53 V21 Z" transform="translate(502.90,82.00) scale(0.1417,0.1600)" fill-rule="evenodd"/>
+      <path d="M0,0 H25 V77 H68 V100 H0 Z" transform="translate(515.37,82.00) scale(0.1417,0.1600)" fill-rule="evenodd"/>
+    </g>
+  </g>
+</svg>

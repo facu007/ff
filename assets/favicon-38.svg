@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 116 104" fill="none">
+  <rect width="116" height="104" rx="16" fill="#111417" stroke="#323539" stroke-width="3"/>
+  <polygon points="0,8 116,8 116,14 0,14" fill="#D71932"/>
+  <polygon points="0,90 116,90 116,96 0,96" fill="#D71932"/>
+  <g transform="skewX(-13) translate(6, 0)">
+    <g stroke="#F3F4F6" stroke-width="4.8" stroke-linejoin="round" paint-order="stroke">
+      <path d="M0,15 L15,0 H73 L88,15 V41 L75,50 L88,60 V85 L73,100 H15 L0,85 V67 H26 V78 H61 V59 H31 V41 H61 V22 H26 V32 H0 Z" transform="translate(16.00,22.00) scale(0.4839,0.6000)" fill-rule="evenodd"/>
+      <path d="M15,0 H75 L90,15 V41 L77,50 L90,60 V85 L75,100 H15 L0,85 V60 L13,50 L0,41 V15 Z M27,21 V40 H63 V21 Z M27,60 V79 H63 V60 Z" transform="translate(62.45,22.00) scale(0.4839,0.6000)" fill-rule="evenodd"/>
+    </g>
+    <g fill="#E11931" stroke="#090B0E" stroke-width="3.2" stroke-linejoin="round" paint-order="stroke">
+      <path d="M0,15 L15,0 H73 L88,15 V41 L75,50 L88,60 V85 L73,100 H15 L0,85 V67 H26 V78 H61 V59 H31 V41 H61 V22 H26 V32 H0 Z" transform="translate(16.00,22.00) scale(0.4839,0.6000)" fill-rule="evenodd"/>
+      <path d="M15,0 H75 L90,15 V41 L77,50 L90,60 V85 L75,100 H15 L0,85 V60 L13,50 L0,41 V15 Z M27,21 V40 H63 V21 Z M27,60 V79 H63 V60 Z" transform="translate(62.45,22.00) scale(0.4839,0.6000)" fill-rule="evenodd"/>
+    </g>
+    <rect x="13" y="51" width="96" height="2.8" fill="#090B0E"/>
+  </g>
+</svg>

@@ -204,15 +204,15 @@ document.addEventListener('DOMContentLoaded', () => {
       destCity: 'Yacuiba / Santa Cruz'
     },
     '5': {
-      title: '5. Corredor Atlántico & Bases Patagónicas',
-      routes: 'RN 3 Troncal · Bases Operativas Sur',
-      distance: '2.580 km',
-      sla: 'Frecuencia continua · Bases propias',
-      hubs: 'Bs. As. ⇄ Bahía Blanca ⇄ Puerto Madryn ⇄ Comodoro ⇄ Río Gallegos',
+      title: '5. Corredor Atlántico, Patagonia & Tierra del Fuego',
+      routes: 'RN 3 Troncal · Bs. As. – Bahía Blanca – Puerto Madryn – Ushuaia / Río Grande',
+      distance: '2.980 km',
+      sla: 'Frecuencia continua · +7 años de ruta a Tierra del Fuego',
+      hubs: 'Bs. As. ⇄ Bahía Blanca (Galpón 750 m²) ⇄ Puerto Madryn ⇄ Comodoro ⇄ Río Gallegos ⇄ Río Grande / Ushuaia',
       originProv: 'Buenos Aires',
       originCity: 'Bahía Blanca',
       destCountry: 'ARG_PAT',
-      destCity: 'Puerto Madryn / Comodoro Rivadavia'
+      destCity: 'Ushuaia / Río Grande / Puerto Madryn'
     },
     '6': {
       title: '6. Corredor Norpatagónico, Vaca Muerta & Cordillera',
@@ -598,16 +598,26 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // =========================================================================
-  // 6. COTIZADOR B2B PROFESIONAL CON RESUMEN + WHATSAPP DIRECTO
+  // 6. COTIZADOR B2B CONECTADO AL BACKEND (/api/cotizaciones) + SEGUIMIENTO
   // =========================================================================
   const quoteForm = document.getElementById('quoteForm');
+  const quoteSubmitBtn = document.getElementById('quoteSubmitBtn');
+  const quoteSubmitText = document.getElementById('quoteSubmitText');
+  const quoteErrorAlert = document.getElementById('quoteErrorAlert');
   const confirmationAlert = document.getElementById('confirmationAlert');
   const confirmationDetails = document.getElementById('confirmationDetails');
+  const confirmationMeta = document.getElementById('confirmationMeta');
   const whatsappQuoteLink = document.getElementById('whatsappQuoteLink');
+  const trackingLookupForm = document.getElementById('trackingLookupForm');
+  const trackingCodeInput = document.getElementById('trackingCodeInput');
+  const trackingResultBox = document.getElementById('trackingResultBox');
 
   if (quoteForm) {
-    quoteForm.addEventListener('submit', (event) => {
+    quoteForm.addEventListener('submit', async (event) => {
       event.preventDefault();
+
+      if (quoteErrorAlert) quoteErrorAlert.classList.add('hidden');
+      if (confirmationAlert) confirmationAlert.classList.add('hidden');
 
       const fullName = document.getElementById('fullName')?.value.trim() || '';
       const companyName = document.getElementById('companyName')?.value.trim() || '';
@@ -616,37 +626,145 @@ document.addEventListener('DOMContentLoaded', () => {
       const originProv = document.getElementById('originProv')?.value || '';
       const originCity = document.getElementById('originCity')?.value.trim() || '';
       const destSelect = document.getElementById('destinationCountry');
-      const destLabel = destSelect?.options[destSelect.selectedIndex]?.text || '';
+      const destinationCountry = destSelect?.value || '';
+      const destinationLabel = destSelect?.options[destSelect.selectedIndex]?.text || '';
       const destinationCity = document.getElementById('destinationCity')?.value.trim() || '';
       const cargoType = document.getElementById('cargoType')?.value || '';
       const cargoWeight = document.getElementById('cargoWeight')?.value || '';
-      const dispatchDate = document.getElementById('dispatchDate')?.value || 'A coordinar';
-      const notes = document.getElementById('notes')?.value.trim() || 'Sin observaciones adicionales';
+      const dispatchDate = document.getElementById('dispatchDate')?.value || '';
+      const notes = document.getElementById('notes')?.value.trim() || '';
 
-      const refCode = `EXP38-${Math.floor(1000 + Math.random() * 9000)}`;
+      if (quoteSubmitBtn) quoteSubmitBtn.disabled = true;
+      if (quoteSubmitText) quoteSubmitText.textContent = 'Procesando Solicitud en Servidor...';
 
-      if (confirmationDetails) {
-        confirmationDetails.textContent = `Ref. ${refCode} — ${companyName} | Ruta: ${originCity} (${originProv}) → ${destinationCity} (${destLabel}) | Carga: ${cargoType} (${cargoWeight} Tn).`;
+      try {
+        const response = await fetch('/api/cotizaciones', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            fullName,
+            companyName,
+            email,
+            phone,
+            originProv,
+            originCity,
+            destinationCountry,
+            destinationLabel,
+            destinationCity,
+            cargoType,
+            cargoWeight,
+            dispatchDate,
+            notes
+          })
+        });
+
+        const data = await response.json();
+        if (!response.ok || !data.ok) {
+          throw new Error(data.error || 'No se pudo procesar la cotización.');
+        }
+
+        const q = data.quote;
+        if (confirmationDetails) {
+          confirmationDetails.textContent = `Código ${q.codigo_referencia} — ${q.empresa} | Ruta: ${q.localidad_origen} (${q.provincia_origen}) → ${q.localidad_destino} (${q.destino_etiqueta}) | Carga: ${q.tipo_carga} (${q.peso_toneladas} Tn).`;
+        }
+
+        if (confirmationMeta) {
+          const storageLabel =
+            data.storage === 'supabase_cloud'
+              ? 'Guardado en Supabase Cloud (PostgreSQL)'
+              : 'Guardado en servidor (respaldo local activo)';
+          const emailLabel = data.email?.sent
+            ? 'Notificación SMTP enviada'
+            : 'Comprobante HTML generado en servidor';
+          confirmationMeta.textContent = `${q.corredor_sugerido} (~${q.distancia_estimada_km} km) · ${storageLabel} · ${emailLabel}`;
+        }
+
+        if (whatsappQuoteLink && data.whatsappUrl) {
+          whatsappQuoteLink.href = data.whatsappUrl;
+        }
+
+        if (trackingCodeInput && q.codigo_referencia) {
+          trackingCodeInput.value = q.codigo_referencia;
+        }
+
+        if (confirmationAlert) {
+          confirmationAlert.classList.remove('hidden');
+          confirmationAlert.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      } catch (err) {
+        // Fallback inmediato si se abrió como archivo estático sin correr node server.js
+        const refCode = `EXP38-${Math.floor(1000 + Math.random() * 9000)}`;
+        if (window.location.protocol === 'file:') {
+          if (confirmationDetails) {
+            confirmationDetails.textContent = `Ref. ${refCode} — ${companyName} | Ruta: ${originCity} (${originProv}) → ${destinationCity} (${destinationLabel}) | Carga: ${cargoType} (${cargoWeight} Tn).`;
+          }
+          if (whatsappQuoteLink) {
+            const waMessage = [
+              `*SOLICITUD DE COTIZACIÓN B2B (${refCode})*`,
+              `• *Empresa:* ${companyName}`,
+              `• *Contacto:* ${fullName} (${phone} / ${email})`,
+              `• *Origen:* ${originCity}, ${originProv}`,
+              `• *Destino:* ${destinationCity} (${destinationLabel})`,
+              `• *Carga:* ${cargoType} — ${cargoWeight} Tn`,
+              `• *Fecha estimada:* ${dispatchDate || 'A coordinar'}`,
+              `• *Observaciones:* ${notes || 'Sin observaciones adicionales'}`
+            ].join('\n');
+            whatsappQuoteLink.href = `https://wa.me/5492914276253?text=${encodeURIComponent(waMessage)}`;
+          }
+          if (confirmationAlert) {
+            confirmationAlert.classList.remove('hidden');
+          }
+        } else if (quoteErrorAlert) {
+          quoteErrorAlert.textContent = err.message || 'Error al registrar la cotización.';
+          quoteErrorAlert.classList.remove('hidden');
+        }
+      } finally {
+        if (quoteSubmitBtn) quoteSubmitBtn.disabled = false;
+        if (quoteSubmitText) quoteSubmitText.textContent = 'Generar Solicitud de Cotización';
       }
+    });
+  }
 
-      if (whatsappQuoteLink) {
-        const waMessage = [
-          `*SOLICITUD DE COTIZACIÓN B2B (${refCode})*`,
-          `• *Empresa:* ${companyName}`,
-          `• *Contacto:* ${fullName} (${phone} / ${email})`,
-          `• *Origen:* ${originCity}, ${originProv}`,
-          `• *Destino:* ${destinationCity} (${destLabel})`,
-          `• *Carga:* ${cargoType} — ${cargoWeight} Tn`,
-          `• *Fecha estimada:* ${dispatchDate}`,
-          `• *Observaciones:* ${notes}`
-        ].join('\n');
+  // Consulta en vivo de estado por código EXP38-XXXX (GET /api/cotizaciones/:codigo)
+  const STATUS_LABELS = {
+    pendiente: { text: 'PENDIENTE DE COTIZACIÓN', color: 'text-amber-400' },
+    en_revision: { text: 'EN ANÁLISIS DE FLOTA', color: 'text-sky-400' },
+    cotizado: { text: 'COTIZACIÓN EMITIDA', color: 'text-emerald-400' },
+    en_transito: { text: 'UNIDAD EN TRÁNSITO', color: 'text-primary' },
+    completado: { text: 'OPERACIÓN COMPLETADA', color: 'text-emerald-400' },
+    cancelado: { text: 'CANCELADA', color: 'text-red-400' }
+  };
 
-        whatsappQuoteLink.href = `https://wa.me/5491138380038?text=${encodeURIComponent(waMessage)}`;
-      }
+  if (trackingLookupForm && trackingCodeInput && trackingResultBox) {
+    trackingLookupForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const rawCode = trackingCodeInput.value.trim().toUpperCase();
+      if (!rawCode) return;
 
-      if (confirmationAlert) {
-        confirmationAlert.classList.remove('hidden');
-        confirmationAlert.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      trackingResultBox.classList.remove('hidden');
+      trackingResultBox.innerHTML =
+        '<p class="text-secondary font-mono-technical text-xs">Consultando base de datos...</p>';
+
+      try {
+        const res = await fetch(`/api/cotizaciones/${encodeURIComponent(rawCode)}`);
+        const data = await res.json();
+        if (!res.ok || !data.ok) {
+          throw new Error(data.error || 'No se encontró el código solicitado.');
+        }
+
+        const q = data.quote;
+        const st = STATUS_LABELS[q.estado] || { text: q.estado.toUpperCase(), color: 'text-white' };
+
+        trackingResultBox.innerHTML = `
+          <div class="flex items-center justify-between gap-2 pb-1.5 border-b border-surface-container-highest">
+            <span class="font-mono-technical font-bold text-white">${q.codigo_referencia}</span>
+            <span class="font-mono-technical text-xs font-bold ${st.color}">${st.text}</span>
+          </div>
+          <p class="text-white font-semibold mt-1">${q.empresa} — ${q.localidad_origen} (${q.provincia_origen}) → ${q.localidad_destino}</p>
+          <p class="text-xs text-secondary">${q.corredor_sugerido} (~${q.distancia_estimada_km} km) · ${q.tipo_carga} (${q.peso_toneladas} Tn)</p>
+        `;
+      } catch (err) {
+        trackingResultBox.innerHTML = `<p class="text-red-300 text-xs">${err.message}</p>`;
       }
     });
   }
